@@ -1,0 +1,22 @@
+﻿<Window 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Title="CCI Tecnologia Office365 V1.0 Beta" Height="600" Width="700" SizeToContent="Width">
+    <Grid Height="300" VerticalAlignment="Top" Margin="0,0,0,0">
+
+        <TabControl HorizontalAlignment="Center" Height="300" VerticalAlignment="Center" Width="300" Margin="0,0,0,0">
+            <TabItem Header="Home" Margin="-2,-2,-2,2">
+                <Grid Background="#FFE5E5E5" Height="270" VerticalAlignment="Top">
+                    <Button Name="botaoSairhome" Content="Sair" HorizontalAlignment="Center" VerticalAlignment="Top" Width="166" Margin="62,168,66,0" Height="42"/>
+                    <Button Name="botaoAjuda" Content="Ajuda" HorizontalAlignment="Center" VerticalAlignment="Top" Width="168" Margin="62,101,64,0" Height="42"/>
+                    <Button Name="botaoConectarconta" Content="Conectar" HorizontalAlignment="Center" Width="166" Margin="62,32,66,196" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Mailbox" Height="22" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5" Margin="0,0,0,27">
+                    <Button Name="botaoTipolicenca" Content="Tipo de licenças" HorizontalAlignment="Left" VerticalAlignment="Top" Width="211" Margin="40,64,0,0"/>
+                    <Button Name="botaoInfotamanho" Content="Uso total e espaço livre" HorizontalAlignment="Left" VerticalAlignment="Top" Width="211" Margin="40,24,0,0"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

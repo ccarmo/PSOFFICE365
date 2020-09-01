@@ -1,0 +1,60 @@
+Function Conectar-Office {
+$o365creds = Get-Credential
+$Session = New-PSSession -Name MainAccount -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $o365creds -Authentication Basic -AllowRedirection
+Import-PSSession $Session -AllowClobber
+Connect-MsolService -Credential $o365creds
+}
+
+
+
+
+
+
+[xml]$Form = Get-Content "C:\Users\carlo\source\repos\PS_OFFICE\PS_OFFICE\MainWindow_edit.xaml"
+$NR=(New-Object System.Xml.XmlNodeReader $Form)
+$Win=[Windows.Markup.XamlReader]::Load($NR)
+
+
+$conectar = $win.FindName("botaoConectarconta")
+$infoTamanho = $win.FindName("botaoInfotamanho")
+$exibeInfo = $win.FindName("telaExibicaoresultado")
+$idg = $win.FindName("telaExibicaoresultado")
+
+
+
+$conectar.Add_Click({
+Conectar-Office
+})
+
+$infoTamanho.Add_Click({
+
+     Get-Mailbox | Get-MailboxStatistics | Select-Object DisplayName, TotalItemSize, ItemCount | Export-Excel $env:HOME\Documents\O365_tamanho.xlsx -AutoSize -StartRow 2 -TableName Adelina_Tamanho 
+
+})
+
+
+$infoLicenca.Add_Click({
+
+#Install-Module -Name ImportExcel
+# Get all O365 Users Service Status$o365creds = Get-Credential
+
+Get-MsolUser -All | ForEach-Object { 
+# Construct an O365 User Service Status PSObject Properties
+$UserO365ServiceStatus = New-Object PSObject -Property @{"UserPrincipalName" = "";"Licenses" = ""} 
+ 
+# Construct an O365 User Service Status PSObject Properties with
+#  all the Service Name that are available
+Get-MsolAccountSku | ForEach-Object {$UserO365ServiceStatus | Add-Member -MemberType Noteproperty -Name $_.ServicePlan.ServiceName -Value "" -Force} 
+
+ 
+
+$UserO365ServiceStatus.UserPrincipalName = [String] $_.UserPrincipalName 
+ 
+if($_.Licenses -ne (Out-Null)) {$UserO365ServiceStatus.Licenses = [String] $_.Licenses.AccountSku.SkuPartNumber -replace " ",","} 
+ 
+Return $UserO365ServiceStatus  
+} | Export-Excel $env:HOME\Documents\O365_licencas.xlsx -AutoSize -StartRow 2 -TableName Adelina_Licencas 
+
+})
+
+$Win.ShowDialog()
