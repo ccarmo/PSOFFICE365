@@ -6,19 +6,15 @@ Connect-MsolService -Credential $o365creds
 }
 
 
-
-
-
-
-[xml]$Form = Get-Content "C:\Users\carlo\source\repos\PS_OFFICE\PS_OFFICE\MainWindow_edit.xaml"
+[xml]$Form = Get-Content "C:\Users\carlo\source\repos\PSOFFICE365\MainWindow.xaml"
 $NR=(New-Object System.Xml.XmlNodeReader $Form)
 $Win=[Windows.Markup.XamlReader]::Load($NR)
 
 
 $conectar = $win.FindName("botaoConectarconta")
 $infoTamanho = $win.FindName("botaoInfotamanho")
-$exibeInfo = $win.FindName("telaExibicaoresultado")
-$idg = $win.FindName("telaExibicaoresultado")
+$infoLicenca = $win.FindName("botaoInfolicenca")
+$infoArquivamento = $win.FindName("botaoArquivamento")
 
 
 
@@ -27,9 +23,7 @@ Conectar-Office
 })
 
 $infoTamanho.Add_Click({
-
-     Get-Mailbox | Get-MailboxStatistics | Select-Object DisplayName, TotalItemSize, ItemCount | Export-Excel $env:HOME\Documents\O365_tamanho.xlsx -AutoSize -StartRow 2 -TableName Adelina_Tamanho 
-
+Get-Mailbox | Get-MailboxStatistics | Select-Object DisplayName, TotalItemSize, ItemCount | Export-Excel $env:USERPROFILE\Documents\O365_tamanho.xlsx -AutoSize -StartRow 1 -TableName Adelina_Tamanho 
 })
 
 
@@ -53,8 +47,12 @@ $UserO365ServiceStatus.UserPrincipalName = [String] $_.UserPrincipalName
 if($_.Licenses -ne (Out-Null)) {$UserO365ServiceStatus.Licenses = [String] $_.Licenses.AccountSku.SkuPartNumber -replace " ",","} 
  
 Return $UserO365ServiceStatus  
-} | Export-Excel $env:HOME\Documents\O365_licencas.xlsx -AutoSize -StartRow 2 -TableName Adelina_Licencas 
-
+} | Export-Excel $env:USERPROFILE\Documents\O365_licencas.xlsx -AutoSize -StartRow 1 -TableName Adelina_Licencas 
 })
+
+$infoArquivamento.Add_Click({
+Get-Mailbox | Select-Object DisplayName, UserPrincipalName, ProhibitSendQuota, TotalItemSize, ArchiveQuota, ArchiveStatus | Export-Excel $env:USERPROFILE\Documents\O365_arquivamento.xlsx -AutoSize -StartRow 1 -TableName Adelina_Licencas 
+})
+
 
 $Win.ShowDialog()

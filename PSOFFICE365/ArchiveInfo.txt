@@ -1,4 +1,5 @@
-
+#Install-Module -Name ImportExcel
+# Get all O365 Users Service Status
 
 Get-MsolUser -All | ForEach-Object { 
 # Construct an O365 User Service Status PSObject Properties
@@ -7,8 +8,12 @@ $UserO365ServiceStatus = New-Object PSObject -Property @{"UserPrincipalName" = "
 # Construct an O365 User Service Status PSObject Properties with
 #  all the Service Name that are available
 Get-MsolAccountSku | ForEach-Object {$UserO365ServiceStatus | Add-Member -MemberType Noteproperty -Name $_.ServicePlan.ServiceName -Value "" -Force} 
+
+ 
+
 $UserO365ServiceStatus.UserPrincipalName = [String] $_.UserPrincipalName 
  
 if($_.Licenses -ne (Out-Null)) {$UserO365ServiceStatus.Licenses = [String] $_.Licenses.AccountSku.SkuPartNumber -replace " ",","} 
-}
-
+ 
+Return $UserO365ServiceStatus  
+} | ft Format-Table
