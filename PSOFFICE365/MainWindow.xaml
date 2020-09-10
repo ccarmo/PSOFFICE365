@@ -2,8 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         Title="CCI Tecnologia Office365 V1.0 Beta" Height="600" Width="700" SizeToContent="Width">
     <Grid Height="300" VerticalAlignment="Top" Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="197*"/>
+            <ColumnDefinition Width="149*"/>
+        </Grid.ColumnDefinitions>
 
-        <TabControl HorizontalAlignment="Center" Height="300" VerticalAlignment="Center" Width="300" Margin="0,0,0,0">
+        <TabControl HorizontalAlignment="Center" Height="300" VerticalAlignment="Center" Width="300" Margin="196,0" Grid.ColumnSpan="2">
             <TabItem Header="Home" Margin="-2,-2,-2,2">
                 <Grid Background="#FFE5E5E5" Height="270" VerticalAlignment="Top">
                     <Button Name="botaoSairhome" Content="Sair" HorizontalAlignment="Center" VerticalAlignment="Top" Width="166" Margin="62,168,66,0" Height="42"/>
@@ -19,5 +23,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        
-    </Grid></Window>
+
+    </Grid>
+</Window>
